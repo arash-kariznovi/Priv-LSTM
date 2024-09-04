@@ -1,0 +1,31 @@
+enclave {
+
+    struct Serialized2DVector {
+    size_t size;       // Total size of the serialized data (excluding metadata)
+    size_t rows;       // Number of rows in the 2D vector
+    size_t cols;       // Number of columns in the 2D vector
+    char* data;        // Pointer to the serialized data
+};
+
+    trusted {
+        public void ecall_activation_function(void);
+        public void ecall_offline_phase(void);
+        public void ecall_get_X_n([out,size=size] char* Xnoisy,size_t size);
+        public void ecall_get_W_n([out,size=size] char* Wnoisy,size_t size, char w_type);
+        public void ecall_online_phase([in, size=size] char* Yn,size_t size,char w_type);
+        public void ecall_compute_y(void);
+    };
+
+    untrusted {
+        void ocall_print([in, string]const char* str);
+        void ocall_print_vector([in]double *vec, size_t row, size_t col);
+        void ocall_print_double(double value);
+        void ocall_print_int32(int32_t value);
+        void ocall_print_int64(int64_t value);   
+    };
+
+};
+    
+   
+
+
